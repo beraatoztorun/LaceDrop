@@ -1,0 +1,11 @@
+.DS_Store
+build/
+DerivedData/
+*.app/
+*.saver/
+*.dSYM/
+*.zip
+LaceDrop-v*/
+LaceDrop-preview.png
+Resources/LaceTexture.png
+Resources/LaceTexture-v2.png
