@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build LaceDrop
+        run: zsh build.sh
+
+      - name: Validate bundles
+        run: |
+          plutil -lint build/LaceDrop.app/Contents/Info.plist
+          plutil -lint build/LaceDrop.saver/Contents/Info.plist
+          codesign --verify --deep --strict build/LaceDrop.app
+          codesign --verify --deep --strict build/LaceDrop.saver
+
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          name: LaceDrop-${{ runner.arch }}
+          path: |
+            build/LaceDrop.app
+            build/LaceDrop.saver
